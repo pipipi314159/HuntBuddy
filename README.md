@@ -26,6 +26,7 @@
 其他修改：
 
 - `HuntBuddy/HuntBuddy.json`：名稱改為 `Hunt Buddy (TW)`，`RepoUrl` 指向本 repo。`InternalName` 未更動，原本的設定會保留。
+- `HuntBuddy/HuntBuddy.json`：加入 `IconUrl`（使用原版 `res/icon.png`）；`HuntBuddy/HuntBuddy.csproj`：編譯時將 `res/icon.png` 複製為 `images/icon.png`，讓開發插件也能顯示圖示。
 
 ## 台服已確認功能
 
