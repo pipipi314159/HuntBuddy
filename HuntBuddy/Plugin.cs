@@ -155,9 +155,9 @@ public class Plugin: IDalamudPlugin {
 						MobHuntEntry? chosen = this.CurrentAreaMobHuntEntries
 							.Where(filterPredicate)
 							.OrderBy(entry =>
-								entry.IsEliteMark
+								entry.IsEliteMark || !Location.Database.TryGetValue(entry.MobHuntId, out Location.PositionInfo? pos)
 									? float.MaxValue
-									: Vector2.Distance(Location.Database[entry.MobHuntId].Coordinate, playerVec2))
+									: Vector2.Distance(pos.Coordinate, playerVec2))
 							.FirstOrDefault();
 						if (chosen == null) {
 							Service.PluginLog.Information("No marks in current zone, looking in current expansion");
@@ -205,6 +205,7 @@ public class Plugin: IDalamudPlugin {
 							else {
 								long remaining = chosen.NeededKills - MobHunt.Instance()->GetKillCount(chosen.BillNumber, chosen.MobIndex);
 								Service.Chat.Print($"Hunting {remaining}x {chosen.Name} in {chosen.TerritoryName}");
+								if (Location.Database.ContainsKey(chosen.MobHuntId))
 								Location.CreateMapMarker(
 									chosen.TerritoryType,
 									chosen.MapId,
